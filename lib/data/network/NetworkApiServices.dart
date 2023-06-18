@@ -40,13 +40,13 @@ class NetworkApiServices extends BaseApiServices{
         return responseJson;
 
       case 400 :
-        throw BadRequestException(response.statusCode.toString());
+        throw BadRequestException(response.body.toString());
 
       case 500 :
-        throw BadRequestException(response.statusCode.toString());
+        throw BadRequestException(response.body.toString());
 
       case 404 :
-        throw UnauthorisedException(response.statusCode.toString());
+        throw UnauthorisedException(response.body.toString());
 
       default  :
         throw FetchDataException("Error occured while comminicating with server with status code: " + response.statusCode.toString());

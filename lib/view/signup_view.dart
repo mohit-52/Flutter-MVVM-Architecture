@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import '../res/components/round_button.dart';
 import '../utils/routes/routes_name.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
 
   ValueNotifier<bool> _obscureText = ValueNotifier<bool>(false);
   TextEditingController _emailController = TextEditingController();
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = Provider.of<AuthViewModel>(context);
     final height  = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(title: Text("Login"),centerTitle: true,),
+        appBar: AppBar(title: Text("Sign Up"),centerTitle: true,),
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -50,9 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Utils.fieldFocusChange(context, emailFocusNode, passwordFocusNode);
                 },
                 decoration: InputDecoration(
-                  hintText: "Email",
-                  label: Text("Email"),
-                  prefixIcon: Icon(Icons.alternate_email)
+                    hintText: "Email",
+                    label: Text("Email"),
+                    prefixIcon: Icon(Icons.alternate_email)
                 ),
               ),
               ValueListenableBuilder(valueListenable: _obscureText, builder: (context, value, child){
@@ -76,31 +76,31 @@ class _LoginScreenState extends State<LoginScreen> {
               }),
               SizedBox(height: height * 0.08,),
               RoundButton(
-                  loading: authProvider.isLoading,
-                  title: "Log In",
+                  loading: authProvider.signupLoading,
+                  title: "Sign Up",
                   onPress: (){
-                if(_emailController.text.isEmpty){
-                  Utils.flushBarErrorMessage("Please Enter Email!", context);
-                }else if (_passwordController.text.isEmpty){
-                  Utils.flushBarErrorMessage("Please Enter Password!", context);
+                    if(_emailController.text.isEmpty){
+                      Utils.flushBarErrorMessage("Please Enter Email!", context);
+                    }else if (_passwordController.text.isEmpty){
+                      Utils.flushBarErrorMessage("Please Enter Password!", context);
 
-                }else if(_passwordController.text.length < 6){
-                  Utils.flushBarErrorMessage("Password Length should be more than 6!", context);
+                    }else if(_passwordController.text.length < 6){
+                      Utils.flushBarErrorMessage("Password Length should be more than 6!", context);
 
-                }else{
-                  Map data = {
-                    'email': _emailController.text.toString(),
-                    'password': _passwordController.text.toString(),
-                  };
-                 authProvider.loginApi(data, context);
-                }
-              }),
+                    }else{
+                      Map data = {
+                        'email': _emailController.text.toString(),
+                        'password': _passwordController.text.toString(),
+                      };
+                      authProvider.signupApi(data, context);
+                    }
+                  }),
               SizedBox(height: height * 0.02,),
               InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, RoutesName.signup);
-                },
-                  child: Text("Don't Have An Account? Sign Up"))
+                  onTap: (){
+                    Navigator.pushNamed(context, RoutesName.login);
+                  },
+                  child: Text("Already Have An Account? Log In"))
 
             ],
           ),
